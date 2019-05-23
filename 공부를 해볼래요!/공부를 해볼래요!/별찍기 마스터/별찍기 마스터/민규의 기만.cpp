@@ -9,7 +9,7 @@ int main(void)
 		scanf("%d %d", &a, &b);
 		for (int y = 0; y < a; y++) {
 			if (a / 2 - b < 0) {
-				printf("Mental Damages\n");
+				printf("NOA\n");
 				break;
 			}
 			for (int x = 0; x < a; x++) {
