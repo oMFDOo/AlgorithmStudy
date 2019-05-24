@@ -13,7 +13,7 @@ int main() {
 
 		for (int y = 0; y < size; y++) {
 			al = 'A';
-			for (int x = 0; x < size - y && x <= y; x++) {
+			for (int x = 0; x < size - y || x == y; x++) {
 				printf("%c", al + y);
 			}
 			printf("\n");
