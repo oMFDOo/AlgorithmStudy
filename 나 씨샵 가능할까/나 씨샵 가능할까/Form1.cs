@@ -33,7 +33,7 @@ namespace 나_씨샵_가능할까
             }
             else
             {
-                MessageBox.Show("딸깍이를 킬까용?");
+                MessageBox.Show("딸깍이 켜주세요ㅠㅠ");
                 cb_ImageLoad.Checked = true;
             }
             
