@@ -9,7 +9,7 @@
 //		scanf("%d %d", &a, &b);
 //		for (int y = 0; y < a; y++) {
 //			if (a / 2 - b < 0) {
-//				printf("NOA\n");
+//				printf("Mental Damages\n");
 //				break;
 //			}
 //			for (int x = 0; x < a; x++) {
@@ -17,7 +17,7 @@
 //					printf("@");
 //				}
 //				else {
-//					printf("O");
+//					printf("+");
 //				}
 //			}
 //			printf("\n");
