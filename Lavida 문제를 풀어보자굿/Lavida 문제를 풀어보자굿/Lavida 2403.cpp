@@ -1,24 +1,13 @@
 #include <stdio.h>
-#pragma warning (disable : 4996)
-
 int main() {
 	int T;
-	scanf("%d", &T);
-	while (T--) {
-		int m, num[3], A = 1;
-		scanf("%d", &m);
-		for (int i = 0; i < 3; i++) {
-			scanf("%d", &num[i]);
-			if (m % num[i] == 0) {
-			}
-			else {
-				A = 0;
-			}
-		}
-		if (A) {
+	scanf("%d",&T);
+	while(T--){
+		int m,a,b,c;
+		scanf("%d %d %d %d",&m,&a,&b,&c);
+		if (m%a==0&&m%b==0&&m%c==0)
 			printf("YES\n");
-		}
-		else 
-			printf("NO\n");
+		else printf
+		("NO\n");
 	}
 }
