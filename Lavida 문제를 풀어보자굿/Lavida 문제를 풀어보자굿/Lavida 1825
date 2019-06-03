@@ -1,0 +1,21 @@
+TC = int(input())
+
+while (TC) :
+        a ,b = input().split()
+        a = int(a)
+        b = str(b)
+        result = 0
+        cnt = 0
+        a -= 1
+        for i in range(0,10) :
+                a += 1
+                text = str(a)
+                for j in range (0, len(text)) :
+                        if (b == text[j]) :
+                                result = i
+                                cnt +=1
+                                break;
+                if(cnt) :
+                        break;
+        print(result)
+        TC -= 1
