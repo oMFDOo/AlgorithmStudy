@@ -13,38 +13,6 @@
 * [Lavida 온라인 저지](https://lavida.us)
 * [백준 온라인 저지](https://www.acmicpc.net) 
 
-### 파일 작명 규칙
-학교 Judge| Lavda Judge | BOJ Jodge | 기타 
---|--|--|--|
-deuJudge(문항번호)|lavida(문항번호)|BOJ(문항번호)|없음|
-
-* 학교 온라인 저지의 경우 해당하는 폴더에 deuJudge(문항번호)로 작성한다.
-* Lavida 온라인 저지의 경우 해당폴더에 lavida(문항번호)로 작성한다.
-* 백준 온라인 저지의 경우 해당폴더에 BOJ(문항번호)로 작성한다.
-* 그 외의 연습용 혹은 기타 다른 파일들은 etc폴더에 구분할 수 있는 이름으로 작성한다.
-* 코드 파일은 main 또는 폴더와 같은 이름 혹은 문항번호로 작성한다.
-
-### 폴더 구조
-
-* Projects
-    * [deuJudge](https://github.com/tomorrow9913/studyCppAndC/tree/master/deuJudge)
-        * deuJudge0000
-        * deuJudge0000
-        * deuJudge0000
-        * **...**
-    * [Lavida](https://github.com/tomorrow9913/studyCppAndC/tree/master/BOJ)
-        * lavida0000
-        * lavida0000
-        * lavida0000
-        * **...**
-    * [BOJ](https://github.com/tomorrow9913/studyCppAndC/tree/master/BOJ)
-        * BOJ0000
-        * BOJ0000
-        * BOJ0000
-        * **...**
-    * etc
-        * **...**
-
 ### 해결한 문항
 ***`ctr`+ `F`로 페이지 내 검색을 사용할 수 있습니다.***
 
