@@ -534,3 +534,7 @@ fabric.properties
 *.iml
 CMakeLists.txt
 
+JAVA 도전/Java Project/.classpath
+JAVA 도전/Java Project/.project
+JAVA 도전/Java Project/.settings/org.eclipse.jdt.core.prefs
+JAVA 도전/Java Project/src/test.java
