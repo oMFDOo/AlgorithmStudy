@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 using namespace std;
 #define MAX 10000
-#define	MAXNUM 10000	// 전처리 방식에서만 쓰여욤
+#define	MAXNUM 10000	// 전처리 방식에서만 쓰여욤!
 /*
 		안녕 난 첫 뇌피셜이야!
 
