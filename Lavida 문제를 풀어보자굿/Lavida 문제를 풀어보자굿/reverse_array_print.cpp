@@ -3,7 +3,7 @@
 //
 //int size, num[5000];
 //
-//void reverse(int HiHi) {
+//void reverse(int HiHi) {		// HiHi ÃÊ±ê°ª :  1	size : 20
 //	if (HiHi > size) {
 //		printf("ÇÏÇÏ! ³¡³µ´Ù!\n");
 //		return ;
