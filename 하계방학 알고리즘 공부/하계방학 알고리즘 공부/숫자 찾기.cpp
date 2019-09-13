@@ -1,6 +1,6 @@
-﻿﻿//#include <iostream>
+﻿//#include <iostream>
 //using namespace std;
-//#define MAX 10000
+//#define MAX 100000
 //#define	MAXNUM 10000	// 전처리 방식에서만 쓰여욤!
 ///*
 //		안녕 난 첫 뇌피셜이야!
@@ -114,10 +114,30 @@
 //	return pre[target];
 //}
 //*/
+//bool find(int a[], int Size, int Num) {
+//	int min = 0, max = Size - 1;
+//	while (true) {
+//		int mid = (min + max) / 2;
+//
+//		if (a[mid] == Num) {
+//			return true;
+//		}
+//		else if (a[mid] < Num) {
+//			min = mid + 1;
+//		}
+//		else if (a[mid] > Num) {
+//			max = mid - 1;
+//		}
+//
+//		if (min > max) {
+//			return false;
+//		}
+//	}
+//}
 //
 //int main() {
-//	int A[MAX], turn, size;
-//	cin >> size >> turn;
+//	int A[MAX], size;
+//	cin >> size;
 //
 //	// 배열 입력받음
 //	for (int i = 0; i < size; i++) {
@@ -125,17 +145,16 @@
 //	}
 //
 //	// 여기부터 //
-//
 //	// 여기까지 //
-//
-//	int num;
-//	for (int i = 0; i < turn; i++) {
+//	int num, size2;
+//	cin >> size2;
+//	for (int i = 0; i < size2; i++) {
 //		cin >> num;
 //		if (find( A, size, num)) {
-//			cout << "true" << endl;
+//			cout << "참" << endl;
 //		}
 //		else {
-//			cout << "false" << endl;
+//			cout << "거짓" << endl;
 //		}
 //	}
 //}
