@@ -11,6 +11,7 @@
 //		scanf("%d", &PushInput);
 //		Hmm[pos++-1] = PushInput;
 //	}
+//
 //	else if (!strcmp(Type, "pop")) {
 //		if (pos > 1) {
 //			printf("%d\n", Hmm[pos - 2]);
