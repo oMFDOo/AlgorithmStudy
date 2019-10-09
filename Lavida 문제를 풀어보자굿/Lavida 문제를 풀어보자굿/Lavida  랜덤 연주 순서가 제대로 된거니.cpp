@@ -22,7 +22,8 @@
 //	for (int i = 0; i < size; i++) {
 //		for (int j = 0; j < size; j++) {
 //			if (list[i] == sortedList[j]) {
-//				if (list[i + 1] == sortedList[j + 1] && list[i + 2] == sortedList[j + 2]) {
+//				if (list[i + 1] == sortedList[j + 1] &&
+//					list[i + 2] == sortedList[j + 2]) {
 //					return false;
 //				}
 //			}
@@ -58,7 +59,7 @@
 //			R2 = true;
 //		}
 //		else {
-//			if (list[0] == list[num-1]) {
+//			if (list[0] == list[num - 1]) {
 //				R1 = false;
 //			}
 //		}
