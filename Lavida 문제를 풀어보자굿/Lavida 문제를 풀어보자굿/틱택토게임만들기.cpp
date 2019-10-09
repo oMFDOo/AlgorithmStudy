@@ -14,7 +14,8 @@ void printMain();
 
 int selectMode();
 void printTurn(int, char);
-void select();
+void selectPlayer1();
+void selectPlayer2();
 
 
 int main() {
@@ -36,39 +37,53 @@ int main() {
 				printBoard();
 				cout << endl;
 				printTurn(1, 79);
+				selectPlayer1();
+				printBoard();
 				printTurn(2, 88);
+				selectPlayer2();
 			}
 	}
 }
 
-void printMain() 
+void printMain()
 {
 	system("cls");
 	cout << " 어떻게든 꾸며라 미래의 나녀석\n";
-	
+
 	cout << "\r\t1. 게임설명 \t 2. 1인용 \t 3. 2인용";
 	Sleep(800);
 	cout << "\r";
 	Sleep(800);
 }
 
-void select() 
+void selectPlayer2()
 {
-	string place;
-	cin >> place;
+	string inputPlace;
+	cin >> inputPlace;
 
+	int place = atoi(inputPlace.c_str());
+	square[place] = 'X';
 
 }
 
-void printTurn(int turn, char simbol) 
+void selectPlayer1()
 {
-	cout << "\r";
+	string inputPlace;
+	cin >> inputPlace;
+
+	int place = atoi(inputPlace.c_str());
+	square[place] = 'O';
+
+}
+
+void printTurn(int turn, char simbol)
+{
+
 	cout << "\tPlayer" << turn << " (" << simbol << ")의 차례입니다.";
 }
 
-
 // mode select
-int selectMode() 
+int selectMode()
 {
 	while (true) {
 
@@ -90,7 +105,7 @@ int selectMode()
 }
 
 // explanation
-void printExplain() 
+void printExplain()
 {
 	system("cls");
 	cout << "\n\t\t<< tic tac toe 게임설명 >>\n\n";
