@@ -20,7 +20,8 @@ void selectPlayer1();
 void selectPlayer2();
 
 bool draw();
-
+bool checkWinO();
+bool checkWinX();
 
 int main() {
 	
@@ -35,7 +36,7 @@ int main() {
 			printExplain();
 
 		if (mode == 2)
-			cout << "아직 구현 안 했어염 ><\n";
+			cout << "아직 구현 안 했쪄염 뿌우~ ><\n";
 
 		else if (mode == 3)
 			while (gameMode) {
@@ -44,6 +45,11 @@ int main() {
 				cout << endl;
 				printTurn(1, 79);
 				selectPlayer1();
+				if (checkWinO()) {
+					system("cls");
+					cout << "오가 이겼어염^^\n";
+					break;
+				}
 				turnCount++;
 				if (turnCount > 8) {
 					gameMode = false;
@@ -56,6 +62,11 @@ int main() {
 				printBoard();
 				printTurn(2, 88);
 				selectPlayer2();
+				if (checkWinX()) {
+					system("cls");
+					cout << "엑스가 이겼어염^^\n";
+					break;
+				}
 				turnCount++;
 			}
 	}
@@ -133,6 +144,62 @@ void selectPlayer1()
 			return;
 		}
 	}
+}
+
+bool checkWinO() {
+	if (square[1] == 'O' && square[2] == 'O' && square[3] == 'O') {			// low
+		return true;
+	}
+	else if (square[4] == 'O' && square[5] == 'O' && square[6] == 'O') {
+		return true;
+	}
+	else if (square[7] == 'O' && square[8] == 'O' && square[9] == 'O') {
+		return true;
+	}
+	else if (square[1] == 'O' && square[4] == 'O' && square[7] == 'O') {	// col
+		return true;
+	}
+	else if (square[2] == 'O' && square[5] == 'O' && square[8] == 'O') {
+		return true;
+	}
+	else if (square[3] == 'O' && square[6] == 'O' && square[9] == 'O') {
+		return true;
+	}
+	else if (square[1] == 'O' && square[5] == 'O' && square[9] == 'O') {	// cross
+		return true;
+	}
+	else if (square[3] == 'O' && square[5] == 'O' && square[7] == 'O') {
+		return true;
+	}
+	return false;
+}
+
+bool checkWinX() {
+	if (square[1] == 'X' && square[2] == 'X' && square[3] == 'X') {			// lXw
+		return true;
+	}
+	else if (square[4] == 'X' && square[5] == 'X' && square[6] == 'X') {
+		return true;
+	}
+	else if (square[7] == 'X' && square[8] == 'X' && square[9] == 'X') {
+		return true;
+	}
+	else if (square[1] == 'X' && square[4] == 'X' && square[7] == 'X') {	// cXl
+		return true;
+	}
+	else if (square[2] == 'X' && square[5] == 'X' && square[8] == 'X') {
+		return true;
+	}
+	else if (square[3] == 'X' && square[6] == 'X' && square[9] == 'X') {
+		return true;
+	}
+	else if (square[1] == 'X' && square[5] == 'X' && square[9] == 'X') {	// crXss
+		return true;
+	}
+	else if (square[3] == 'X' && square[5] == 'X' && square[7] == 'X') {
+		return true;
+	}
+	return false;
 }
 
 void selectPlayer2()
