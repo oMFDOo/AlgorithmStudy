@@ -24,8 +24,7 @@ void resetColor();
 
 int selectMode();
 void printTurn(int, char);
-void selectPlayer1();
-void selectPlayer2();
+void selectPlayer(int);
 
 bool drawDraw();
 bool drawWin(int);
@@ -56,7 +55,7 @@ int main() {
 				printBoard();
 				cout << endl;
 				printTurn(1, 79);
-				selectPlayer1();
+				selectPlayer(turnCount);
 				if (checkWin()) {
 					startGame = drawWin(1);
 					printMain();
@@ -81,6 +80,7 @@ int main() {
 				}
 				if (checkWin()) {
 					startGame = drawWin(3);
+					printMain();
 					break;
 				}
 				turnCount++;
@@ -93,9 +93,8 @@ int main() {
 				printBoard();
 				cout << endl;
 				printTurn(1, 79);
-				selectPlayer1();
+				selectPlayer(turnCount);
 				if (checkWin()) {
-					square = { 'o','1','2','3','4','5','6','7','8','9' };
 					startGame = drawWin(1);
 					printMain();
 					break;
@@ -105,16 +104,14 @@ int main() {
 					gameMode = false;
 					startGame = drawDraw();
 					if (!gameMode) {
-						square = { 'o','1','2','3','4','5','6','7','8','9' };
 						printMain();
 						break;
 					}
 				}
 				printBoard();
 				printTurn(2, 88);
-				selectPlayer2();
+				selectPlayer(turnCount);
 				if (checkWin()) {
-					square = { 'o','1','2','3','4','5','6','7','8','9' };
 					startGame = drawWin(2);
 					break;
 				}
@@ -156,10 +153,10 @@ void printMain()
 
 	resetColor();
 
-
 }
 
-bool drawWin(int winNumber) {
+bool drawWin(int winNumber) 
+{
 
 	int print;
 	if (winNumber==1) {
@@ -211,7 +208,8 @@ bool drawWin(int winNumber) {
 	resetColor();
 }
 
-bool drawDraw() {
+bool drawDraw() 
+{
 	system("cls");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
 	cout << endl << endl;
@@ -254,7 +252,8 @@ bool drawDraw() {
 	resetColor();
 }
 
-int choiceDifferenty() {
+int choiceDifferenty() 
+{
 	cout << "\n\t\t\t\t난이도를 입력해주세요.\n\n";
 	cout << "\t\t\t    1. 초급\t 2. 중급\n\t\t\t>>";
 	while (true) {
@@ -274,7 +273,8 @@ int choiceDifferenty() {
 	}
 }
 
-void computerChoiceBeginner() {
+void computerChoiceBeginner() 
+{
 	srand((unsigned int)time(NULL));
 	while (true) {
 		int num = rand() % 9 + 1;
@@ -289,7 +289,8 @@ void computerChoiceBeginner() {
 	}
 }
 
-void computerChoiceIntermediate() {
+void computerChoiceIntermediate() 
+{
 	for (int i = 0; i < 8; i++) {
 		char frontToChar = front[i] + 48, middleToChar = middle[i] + 48, endToChar = endNum[i] + 48;
 
@@ -336,57 +337,40 @@ void computerChoiceIntermediate() {
 	}
 }
 
-void selectPlayer1()
+void selectPlayer(int turn)
 {
 	while (true) {
 		string inputPlace;
 		cin >> inputPlace;
 		int place = atoi(inputPlace.c_str());
 
-		if (place > 9) {
+		if (place > 9 || place == 0) {
 			cout << "\r올바른 위치를 선택해주세요.\n\n";
 		}
 		else if (square[place] == 'O' || square[place] == 'X') {
 			cout << "\r이미 선택된 자리 입니다.\n";
 		}
-		else if (place == 0) {
-			cout << "\r올바른 위치를 선택해주세요.\n";
-		}
 		else {
-			square[place] = 'O';
-			return;
+			if (turn % 2) {
+				square[place] = 'X';
+				return;
+			}
+			else {
+				square[place] = 'O';
+				return;
+			}
 		}
 	}
 }
-bool checkWin() {
+
+bool checkWin() 
+{
 	for (int i = 0; i < sizeof(front) / sizeof(int); i++) {
 		if (square[front[i]] == square[middle[i]] && square[middle[i]] == square[endNum[i]]) {
 			return true;
 		}
 	}
 	return false;
-}
-
-void selectPlayer2()
-{
-	while (true) {
-		string inputPlace;
-		cin >> inputPlace;
-		int place = atoi(inputPlace.c_str());
-		if (place > 9) {
-			cout << "\r올바른 위치를 선택해주세요.\n\n";
-		}
-		else if (square[place] == 'O' || square[place] == 'X') {
-			cout << "\r이미 선택된 자리 입니다.\n";
-		}
-		else if (place == 0) {
-			cout << "\r올바른 위치를 선택해주세요.\n\n";
-		}	
-		else {
-			square[place] = 'X';
-			return;
-		}
-	}
 }
 
 
@@ -524,7 +508,8 @@ void printBoard()
 	cout << "  ■■■■■■■■■■■■■■■■" << endl << endl;
 }
 
-void changeColor(int color) {
+void changeColor(int color) 
+{
 	if (square[color] == 'O') {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
 	}
@@ -536,6 +521,7 @@ void changeColor(int color) {
 	}
 }
 
-void resetColor() {
+void resetColor() 
+{
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 }
