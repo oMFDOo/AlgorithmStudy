@@ -1,68 +1,94 @@
 #include <iostream>
-#include <Windows.h>
-#include <cstdlib>
-#include <string>
-#include <array>
+#include <Windows.h>		// Adornment
+#include <cstdlib>			// To use "atoi"
+#include <string>			// To use "string"
+#include <array>			// To use "array"
 #include <random>
 #include <ctime>
 using namespace std;
 
-array <char, 50> square = { 'o','1','2','3','4','5','6','7','8','9' };
 
+// Print
+void printBoard();
+void printExplain();
+void printMain();
+void printTurn(int, char);
+
+// Adornment
+void changeColor(int);
+void resetColor();
+
+// Judgment
+int selectMode();
+void playerChoice(int);
+bool checkWin();
+int choiceDifferenty();
+
+// Result
+bool drawDraw();
+bool drawWin(int);
+
+// Difficulty
+void computerChoiceBeginner();
+void computerChoiceIntermediate();
+
+// Change Board
+array <char, 50> boardSet = { 'o','1','2','3','4','5','6','7','8','9' };
+
+// Choice Case
 array <int, 8> front = { 1,4,7,1,2,3,1,3 };
 array <int, 8> middle = { 2,5,8,4,5,6,5,5 };
 array <int, 8> endNum = { 3,6,9,7,8,9,9,7 };
 
-string winner[] = {" ","\tPLAYER_1", "\tPLAYER_2", "\tCOMPUTER"};
+// Player Name
+string winner[] = { " ","\tPLAYER_1", "\tPLAYER_2", "\tCOMPUTER" };
 
-//print
-void printBoard();
-void printExplain();
-void printMain();
-void changeColor(int);
-void resetColor();
+// Text Color
+enum color {
+	black, blue, green, skyblue, red,
+	purple, yellow, white, grey, lightBlue,
+	lightGreen, lightSkyblue, lightRed,
+	lightPurple, lightYellow, darkWhite
+};
 
-int selectMode();
-void printTurn(int, char);
-void selectPlayer(int);
-
-bool drawDraw();
-bool drawWin(int);
-bool checkWin();
-
-void computerChoiceBeginner();
-void computerChoiceIntermediate();
-int choiceDifferenty();
 
 int main() {
 	
-	bool startGame = true;
+	bool startGame = true;		// 프로그램 종료 여부 판단
 	printMain();
 	while (startGame) {
-		square = { 'o','1','2','3','4','5','6','7','8','9' };
-		bool  gameMode = true;
+
+		// 보드판 초기화
+		boardSet = { 'o','1','2','3','4','5','6','7','8','9' };
+
+		bool  gameMode = true;		// 게임 종료 여부 판단
 		int mode, turnCount = 0;
+		
+		// 모드선택 : 1. 게임 설명	2. 1인 플레이	3. 2인 플레이
 		mode = selectMode();
 
+		// 1. 게임설명
 		if (mode == 1) {
 			printExplain();
 		}
 
+		// 2. 1인 플레이
 		if (mode == 2) {
-			int difficulty = choiceDifferenty();
+			int difficulty = choiceDifferenty();	// 컴퓨터 난이도 선택
 			while (gameMode) {
 
-				printBoard();
+				printBoard();						// 보드 출력
 				cout << endl;
-				printTurn(1, 79);
-				selectPlayer(turnCount);
-				if (checkWin()) {
-					startGame = drawWin(1);
+				printTurn(1, 79);					// 차례 출력 : 플레이어 정보와 'O'혹은 'X'의 아스키 코드값 전송 
+				playerChoice(turnCount);			// 플레이어의 선택
+
+				if (checkWin()) {					// 승리 판정
+					startGame = drawWin(1);			// "WIN" 출력 및 게임 진행 여부 확인 
 					printMain();
 					break;
 				}
-				turnCount++;
-				if (turnCount > 8) {
+				turnCount++;						// turn 횟수를 이용해 차례와 게임진행 파악
+				if (turnCount > 8) {				// 9번이 진행되면 게임종료
 					gameMode = false;
 					startGame = drawDraw();
 					if (!gameMode) {
@@ -72,11 +98,11 @@ int main() {
 				}
 				printBoard();
 				printTurn(3, 88);
-				if (difficulty == 2) {
-					computerChoiceIntermediate();
+				if (difficulty == 2) {				// 난이도 선택에 따른 알고리즘 변화
+					computerChoiceIntermediate();	// 중급
 				}
 				else if (difficulty == 1) {
-					computerChoiceBeginner();
+					computerChoiceBeginner();		// 초급
 				}
 				if (checkWin()) {
 					startGame = drawWin(3);
@@ -87,13 +113,14 @@ int main() {
 			}
 		}
 
+		// 3. 2인 플레이	: 난이도를 제외한 동일한 로직
 		else if (mode == 3) {
 			while (gameMode) {
 
 				printBoard();
 				cout << endl;
 				printTurn(1, 79);
-				selectPlayer(turnCount);
+				playerChoice(turnCount);
 				if (checkWin()) {
 					startGame = drawWin(1);
 					printMain();
@@ -110,9 +137,10 @@ int main() {
 				}
 				printBoard();
 				printTurn(2, 88);
-				selectPlayer(turnCount);
+				playerChoice(turnCount);
 				if (checkWin()) {
 					startGame = drawWin(2);
+					printMain();
 					break;
 				}
 				turnCount++;
@@ -122,15 +150,15 @@ int main() {
 }
 void printMain()
 {
-	system("cls");
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+	system("cls");	// 콘솔의 화면 지우기
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), green);	// 색상 처리
 	cout << endl << endl;
 	cout << "_______________________________________________________________________________________________" << endl;
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightBlue);
 	cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << endl << endl;
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), darkWhite);
 	cout << " '      '             '          *         '            '                      *         '" << endl;
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightRed);
 	cout << "\t" << R"(	  ______________     ______________        ______________)" << endl;
 	cout << "\t" << R"(	 /             /    /             /       /             /)" << endl;
 	cout << "\t" << R"(	/____     ____/    /____     ____/       /____     ____/)" << endl;
@@ -139,41 +167,41 @@ void printMain()
 	cout << "\t" << R"(          /    /      ___    /    /   ___    ___   /    /  __    ___)" << endl;
 	cout << "\t" << R"(         /    /   /  /      /    /   /   \  /     /    /  /  \  /___\)" << endl;
 	cout << "\t" << R"(        /____/   /   \___  /____/    \__/ \ \___ /____/   \__/  \___)" << endl;
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), darkWhite);
 	cout << "        '             '          *                            '                 '   " << endl;
 	cout << " '            *                            '            '             *         '         '" << endl << endl;
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightBlue);
 	cout << "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-" << endl;
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), green);
 	cout << "_______________________________________________________________________________________________" << endl;
 
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightYellow);
 	cout << "\t\t1. 게임설명 \t2. 혼자 하기 \t3. 두 명에서 하기\n\n";
 	cout << "\t\t\t원하는 모드의 번호를 입력해주세요 >> ";
 
-	resetColor();
+	resetColor();	// 흰색으로 초기화
 
 }
 
 bool drawWin(int winNumber) 
 {
 
-	int print;
+	int print;	// 승자에 따른 win 색깔변화
 	if (winNumber==1) {
-		print = 1;
+		print = lightBlue;
 	}
 	else {
-		print = 4;
+		print = lightRed;
 	}
 
 	system("cls");
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), green);
 	cout << endl << endl;
 	cout << "_______________________________________________________________________________________________" << endl;
 	cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << endl << endl;
 	cout << " '      '             '          *         '            '                      *         '" << endl;
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), print);
-	cout << "\t\t" << winner[winNumber] << endl;
+	cout << "\t\t" << winner[winNumber] << endl;	// 승자 이름 출력
 	cout << "\t\t" << R"(   *  ___  ___  ___  _________   _____       ___    '             ')" << endl;
 	cout << "\t\t" << R"(     /  / /  / /  / /__   ___/  /     | '   /  /        ')" << endl;
 	cout << "\t\t" << R"(  ' /  / /  / /  /    /  /     /  /|  |    /  /                         ')" << endl;
@@ -182,25 +210,28 @@ bool drawWin(int winNumber)
 	cout << "\t\t" << R"( /  /_/  /_/  / *  /  /     /  /   |  | /  /                   )" << endl;
 	cout << "\t\t" << R"( |           /  __/  /___  /  /    |  |/  /    ')" << endl;
 	cout << "\t\t" << R"( \____/\____/  /________/ /__/     |_____/       *           ')" << endl;
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), green);
 	cout << "        '             '          *                            '                 '   " << endl;
 	cout << " '            *                            '            '             *         '         '" << endl << endl;
 	cout << "_______________________________________________________________________________________________" << endl;
 	cout << "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-" << endl;
-	while (true) {
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
-		cout << "    \t\t1. 다시하기 \t 2.그만두기\n\n";
-		string inputRestart;
+
+	while (true) {		// 프로그램 종료 의사 확인
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightYellow);
+		cout << "\t\t\t1. 다시하기 \t 2.그만두기\n\n";
+
+		string inputRestart;		// 종료 의사 확인
 		resetColor();
 		cin >> inputRestart;
-		int restart = atoi(inputRestart.c_str());
-		if (restart == 1) {
+		int restart = atoi(inputRestart.c_str());		// string형식을 int 형식으로 변환
+
+		if (restart == 1) {			// 프로그램 가동
 			return true;
 		}
-		else if (restart == 2) {
+		else if (restart == 2) {	// 프로그램 종료
 			return false;
 		}
-		else {
+		else {						// 예외 발생
 			cout << "올바른 번호를 입력해주세요. \n\n";
 		}
 	}
@@ -211,12 +242,12 @@ bool drawWin(int winNumber)
 bool drawDraw() 
 {
 	system("cls");
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), green);
 	cout << endl << endl;
 	cout << "___________________________________________________________________________________________" << endl;
 	cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << endl << endl;
 	cout << " '      *             '                   '            *                      *         '" << endl;
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 3);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightPurple);
 	cout << R"(            __________        ____________        ___________  '    ___  ___  ___)" << endl;
 	cout << R"(           /   _____  \  *   /  ________  \      /  ______   |     /  / /  / /  /)" << endl;
 	cout << R"(          /   /     \  \    /  /        |  |    /  /      |  |  ' /  / /  / /  /)" << endl;
@@ -225,26 +256,28 @@ bool drawDraw()
 	cout << R"(       /   /   '  /  /   /  /        \  \    /  /        /  /  /  /_/  /_/  /)" << endl;
 	cout << R"(  '   /   /______/  /   /  /         |  |   /  /        /  /   |           /)" << endl;
 	cout << R"(      |____________/   /__/          |__|  /__/   '    /__/ *  \____/\____/)" << endl;
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), green);
 	cout << "        '                       '                            '                 '   " << endl;
 	cout << " '      '        *                  '       *     '                      '         '" << endl << endl;
 	cout << "___________________________________________________________________________________________" << endl;
 	cout << "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-" << endl;
 
-	while (true) {
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
-		cout << "    \t\t1. 다시하기 \t 2.그만두기\n\n";
-		string inputRestart;
+	while (true) {		// 프로그램 종료 의사 확인
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightBlue);
+		cout << "\n\t\t\t1. 다시하기 \t 2.그만두기\n\n";
+
+		string inputRestart;	
 		resetColor();
 		cin >> inputRestart;
-		int restart = atoi(inputRestart.c_str());
-		if (restart == 1) {
+		int restart = atoi(inputRestart.c_str());	// 의사 확인 및 변수 타입 변환
+
+		if (restart == 1) {			// 프로그램 가동
 			return true;
 		}
-		else if (restart == 2) {
+		else if (restart == 2) {	// 프로그램 종료
 			return false;
 		}
-		else {
+		else {						// 예외
 			cout << "올바른 번호를 입력해주세요. \n\n";
 		}
 	}
@@ -279,11 +312,11 @@ void computerChoiceBeginner()
 	while (true) {
 		int num = rand() % 9 + 1;
 		bool flag = true;
-		if (square[num] == 'O' || square[num] == 'X') {
+		if (boardSet[num] == 'O' || boardSet[num] == 'X') {
 			flag = false;
 		}
 		if (flag) {
-			square[num] = 'X';
+			boardSet[num] = 'X';
 			return;
 		}
 	}
@@ -294,32 +327,32 @@ void computerChoiceIntermediate()
 	for (int i = 0; i < 8; i++) {
 		char frontToChar = front[i] + 48, middleToChar = middle[i] + 48, endToChar = endNum[i] + 48;
 
-		if (square[front[i]] == 'X' && square[middle[i]] == 'X' && square[endNum[i]] == endToChar) {
-			square[endNum[i]] = 'X';
+		if (boardSet[front[i]] == 'X' && boardSet[middle[i]] == 'X' && boardSet[endNum[i]] == endToChar) {
+			boardSet[endNum[i]] = 'X';
 			return;
 		}
-		else if (square[front[i]] == 'X' && square[endNum[i]] == 'X'&& square[middle[i]] == middleToChar) {
-			square[middle[i]] = 'X';
+		else if (boardSet[front[i]] == 'X' && boardSet[endNum[i]] == 'X'&& boardSet[middle[i]] == middleToChar) {
+			boardSet[middle[i]] = 'X';
 			return;
 		}
-		else if (square[middle[i]] == 'X' && square[endNum[i]] == 'X' && square[front[i]] == frontToChar) {
-			square[front[i]] = 'X';
+		else if (boardSet[middle[i]] == 'X' && boardSet[endNum[i]] == 'X' && boardSet[front[i]] == frontToChar) {
+			boardSet[front[i]] = 'X';
 			return;
 		}
 	}
 	for (int i = 0; i < 8; i++) {
 		char frontToChar = front[i] + 48, middleToChar = middle[i] + 48, endToChar = endNum[i] + 48;
 
-		if (square[front[i]] == 'O' && square[middle[i]] == 'O' && square[endNum[i]] == endToChar) {
-			square[endNum[i]] = 'X';
+		if (boardSet[front[i]] == 'O' && boardSet[middle[i]] == 'O' && boardSet[endNum[i]] == endToChar) {
+			boardSet[endNum[i]] = 'X';
 			return;
 		}
-		else if (square[front[i]] == 'O' && square[endNum[i]] == 'O'&& square[middle[i]] == middleToChar) {
-			square[middle[i]] = 'X';
+		else if (boardSet[front[i]] == 'O' && boardSet[endNum[i]] == 'O'&& boardSet[middle[i]] == middleToChar) {
+			boardSet[middle[i]] = 'X';
 			return;
 		}
-		else if (square[middle[i]] == 'O' && square[endNum[i]] == 'O' && square[front[i]] == frontToChar) {
-			square[front[i]] = 'X';
+		else if (boardSet[middle[i]] == 'O' && boardSet[endNum[i]] == 'O' && boardSet[front[i]] == frontToChar) {
+			boardSet[front[i]] = 'X';
 			return;
 		}
 	}
@@ -327,17 +360,17 @@ void computerChoiceIntermediate()
 	while (true) {
 		int num = rand() % 9 + 1;
 		bool flag = true;
-		if (square[num] == 'O' || square[num] == 'X') {
+		if (boardSet[num] == 'O' || boardSet[num] == 'X') {
 			flag = false;
 		}
 		if (flag) {
-			square[num] = 'X';
+			boardSet[num] = 'X';
 			return;
 		}
 	}
 }
 
-void selectPlayer(int turn)
+void playerChoice(int turn)
 {
 	while (true) {
 		string inputPlace;
@@ -347,16 +380,16 @@ void selectPlayer(int turn)
 		if (place > 9 || place == 0) {
 			cout << "\r올바른 위치를 선택해주세요.\n\n";
 		}
-		else if (square[place] == 'O' || square[place] == 'X') {
+		else if (boardSet[place] == 'O' || boardSet[place] == 'X') {
 			cout << "\r이미 선택된 자리 입니다.\n";
 		}
 		else {
 			if (turn % 2) {
-				square[place] = 'X';
+				boardSet[place] = 'X';
 				return;
 			}
 			else {
-				square[place] = 'O';
+				boardSet[place] = 'O';
 				return;
 			}
 		}
@@ -366,7 +399,7 @@ void selectPlayer(int turn)
 bool checkWin() 
 {
 	for (int i = 0; i < sizeof(front) / sizeof(int); i++) {
-		if (square[front[i]] == square[middle[i]] && square[middle[i]] == square[endNum[i]]) {
+		if (boardSet[front[i]] == boardSet[middle[i]] && boardSet[middle[i]] == boardSet[endNum[i]]) {
 			return true;
 		}
 	}
@@ -377,10 +410,10 @@ bool checkWin()
 void printTurn(int turn, char simbol)
 {
 	if (turn == 1) {
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightBlue);
 	}
 	else if (turn == 2 || turn == 3){
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightRed);
 	}
 	if (turn == 1 || turn == 2) {
 		cout << "\tPlayer" << turn;
@@ -423,14 +456,14 @@ int selectMode()
 void printExplain()
 {
 	system("cls");
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 014);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightRed);
 	cout << "\n\n\t\t<< tic tac toe 게임설명 >>\n\n\n";
 	resetColor();
 	cout << "    > Player1과 Player2는 번갈아가며 말을 둡니다.\n";
 	cout << "    > Player1은 'O', Player2는 'X'로 표시됩니다.\n";
 	cout << "    > 두 사람 중 가로, 세로, 대각선 중 하나라도 3개가 연결되면 이깁니다.\n";
 	cout << "    > 두 사람 모두 연결에 실패하면 비깁니다.\n\n";
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightBlue);
 	cout << "            2. 혼자하기 \t 3. 두 명에서 하기\n\n";
 	resetColor();
 }
@@ -439,11 +472,11 @@ void printExplain()
 void printBoard()
 {
 	system("cls");
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightYellow);
 	cout << "\t======================";
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), yellow);
 	cout << "\n\t  << Tic Tac Toe >>\n";
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightYellow);
 	cout << "\t======================\n\n";
 
 	resetColor();
@@ -456,15 +489,15 @@ void printBoard()
 
 	cout << "  ■\t  ";
 	changeColor(1);
-	cout << square[1];
+	cout << boardSet[1];
 	resetColor();
 	cout << "  |  ";
 	changeColor(2);
-	cout << square[2];
+	cout << boardSet[2];
 	resetColor();
 	cout << "  |  ";
 	changeColor(3);
-	cout << square[3];
+	cout << boardSet[3];
 	resetColor();
 	cout << "\t\t■" << endl;
 
@@ -473,15 +506,15 @@ void printBoard()
 
 	cout << "  ■\t  ";
 	changeColor(4);
-	cout << square[4];
+	cout << boardSet[4];
 	resetColor();
 	cout << "  |  ";
 	changeColor(5);
-	cout << square[5];
+	cout << boardSet[5];
 	resetColor();
 	cout << "  |  ";
 	changeColor(6);
-	cout << square[6];
+	cout << boardSet[6];
 	resetColor();
 	cout << "\t\t■" << endl;
 
@@ -490,15 +523,15 @@ void printBoard()
 
 	cout << "  ■\t  ";
 	changeColor(7);
-	cout << square[7];
+	cout << boardSet[7];
 	resetColor();
 	cout << "  |  ";
 	changeColor(8);
-	cout << square[8];
+	cout << boardSet[8];
 	resetColor();
 	cout << "  |  ";
 	changeColor(9);
-	cout << square[9];
+	cout << boardSet[9];
 	resetColor();
 	cout << "\t\t■" << endl;
 
@@ -510,18 +543,18 @@ void printBoard()
 
 void changeColor(int color) 
 {
-	if (square[color] == 'O') {
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 9);
+	if (boardSet[color] == 'O') {
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightBlue);
 	}
-	else if (square[color] == 'X') {
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+	else if (boardSet[color] == 'X') {
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lightRed);
 	}
 	else {
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), darkWhite);
 	}
 }
 
 void resetColor() 
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), darkWhite);
 }
